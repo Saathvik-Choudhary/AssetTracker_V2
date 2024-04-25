@@ -4,8 +4,11 @@ import com.example.AssetTracker_V2.domain.Asset;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Repository;
+
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Random;
 
 /**
@@ -27,11 +30,11 @@ public class AssetPopulator implements CommandLineRunner {
         String[] titles = {"Laptop", "Smartphone", "Camera", "Tablet", "Headphones", "Gaming Console", "Fitness Tracker", "Smartwatch", "Drone", "VR Headset"};
         BigDecimal[] values = {BigDecimal.valueOf(1000), BigDecimal.valueOf(800), BigDecimal.valueOf(600), BigDecimal.valueOf(400), BigDecimal.valueOf(300), BigDecimal.valueOf(400), BigDecimal.valueOf(200), BigDecimal.valueOf(300), BigDecimal.valueOf(800), BigDecimal.valueOf(500)};
 
-        LocalDate startDate = LocalDate.of(2023, 1, 1); // Start date for purchases
+        Date startDate = new Date(); // Current date
 
         for (int i = 0; i < titles.length; i++) {
             // Generate random purchase date within the last year
-            LocalDate purchaseDate = startDate.minusDays(random.nextInt(365));
+            Date purchaseDate = getRandomPastDate(startDate);
 
             // Save asset with random title, value, and purchase date
             assetRepository.save(new Asset(titles[i],
@@ -40,6 +43,19 @@ public class AssetPopulator implements CommandLineRunner {
                     purchaseDate
             ));
         }
+    }
+
+    /**
+     * Generate a random date in the past.
+     *
+     * @param endDate The latest possible date.
+     * @return A random date in the past.
+     */
+    private Date getRandomPastDate(Date endDate) {
+        Random random = new Random();
+        long maxDifference = 365L * 24 * 60 * 60 * 1000; // 365 days in milliseconds
+        long randomOffset = (long) (random.nextDouble() * maxDifference);
+        return new Date(endDate.getTime() - randomOffset);
     }
 
     @Override

@@ -1,9 +1,12 @@
 package com.example.AssetTracker_V2.data;
 
+import com.example.AssetTracker_V2.common.Request;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Date;
 
-public class SaveAssetRequest {
+public class SaveAssetRequest extends Request {
     private final BigDecimal cost;
 
     private final String currency;
@@ -14,7 +17,7 @@ public class SaveAssetRequest {
 
     private final BigDecimal depreciationRate;
 
-    private final LocalDate purchaseDate;
+    private final Date purchaseDate;
 
     private final String title;
 
@@ -29,13 +32,14 @@ public class SaveAssetRequest {
     public SaveAssetRequest(String title,
                             BigDecimal cost, String currency,
                             BigDecimal depreciationRate,
-                            LocalDate purchaseDate
+                            Date purchaseDate
     ) {
         this.cost = cost;
         this.currency = currency;
         this.depreciationRate = depreciationRate;
         this.purchaseDate = purchaseDate;
         this.title = title;
+        System.out.println(purchaseDate.getTimezoneOffset());
     }
 
     /**
@@ -61,7 +65,7 @@ public class SaveAssetRequest {
      *
      * @return The purchase date of the asset.
      */
-    public LocalDate getPurchaseDate() {
+    public Date getPurchaseDate() {
         return purchaseDate;
     }
 

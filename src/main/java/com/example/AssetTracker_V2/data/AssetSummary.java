@@ -2,6 +2,8 @@ package com.example.AssetTracker_V2.data;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 
 public class AssetSummary {
 
@@ -27,12 +29,12 @@ public class AssetSummary {
     public AssetSummary(final BigDecimal cost,
                         final BigDecimal currentValue,
                         final BigDecimal depreciationRate,
-                        final LocalDate purchaseDate,
+                        final Date purchaseDate,
                         final String title) {
         this.currentValue = currentValue;
         this.cost = cost;
         this.depreciationRate = depreciationRate;
-        this.purchaseDate = purchaseDate;
+        this.purchaseDate = purchaseDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         this.title = title;
     }
 

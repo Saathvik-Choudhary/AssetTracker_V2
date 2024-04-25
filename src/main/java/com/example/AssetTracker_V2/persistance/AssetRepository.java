@@ -24,4 +24,5 @@ public interface AssetRepository extends JpaRepository<Asset,Long> , JpaSpecific
     @Query("SELECT SUM(currentValue) FROM Asset")
     BigDecimal valueOfAllAssets();
 
+
 }

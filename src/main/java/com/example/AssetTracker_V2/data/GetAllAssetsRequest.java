@@ -5,10 +5,7 @@ import org.springframework.data.domain.PageRequest;
 
 public class GetAllAssetsRequest extends PaginatedRequest {
 
-
-
-
-/**
+    /**
     private final PageRequest pageable;
 
     public GetAllAssetsRequest() {

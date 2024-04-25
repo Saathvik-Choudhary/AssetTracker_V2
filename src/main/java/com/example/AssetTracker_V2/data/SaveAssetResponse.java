@@ -1,4 +1,6 @@
 package com.example.AssetTracker_V2.data;
 
-public class SaveAssetResponse {
+import com.example.AssetTracker_V2.common.Response;
+
+public class SaveAssetResponse extends Response {
 }

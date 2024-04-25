@@ -1,8 +1,10 @@
 package com.example.AssetTracker_V2.data;
 
+import com.example.AssetTracker_V2.common.Response;
+
 import java.math.BigDecimal;
 
-public class GetAllAssetsSummaryResponse {
+public class GetAllAssetsSummaryResponse extends Response {
     private final BigDecimal cost;
 
     private final BigDecimal value;
