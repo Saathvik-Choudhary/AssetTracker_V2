@@ -17,7 +17,7 @@ public class AssetController {
     AssetService assetService;
 
     @CrossOrigin
-    @GetMapping("/assetsummary")
+    @GetMapping("/summary")
     public ResponseEntity<GetAllAssetsSummaryResponse> getAssetSummary(GetAllAssetsSummaryRequest request){
 
         return ResponseEntity.ok(assetService.getAssetsSummary(request));

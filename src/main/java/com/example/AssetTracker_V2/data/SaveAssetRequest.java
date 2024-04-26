@@ -11,10 +11,6 @@ public class SaveAssetRequest extends Request {
 
     private final String currency;
 
-    public String getCurrency() {
-        return currency;
-    }
-
     private final BigDecimal depreciationRate;
 
     private final Date purchaseDate;
@@ -29,17 +25,17 @@ public class SaveAssetRequest extends Request {
      * @param purchaseDate The purchase date of the asset.
      * @param title The title of the asset.
      */
-    public SaveAssetRequest(String title,
-                            BigDecimal cost, String currency,
-                            BigDecimal depreciationRate,
-                            Date purchaseDate
+    public SaveAssetRequest(final String title,
+                            final BigDecimal cost,
+                            final String currency,
+                            final BigDecimal depreciationRate,
+                            final Date purchaseDate
     ) {
         this.cost = cost;
         this.currency = currency;
         this.depreciationRate = depreciationRate;
         this.purchaseDate = purchaseDate;
         this.title = title;
-        System.out.println(purchaseDate.getTimezoneOffset());
     }
 
     /**
@@ -49,6 +45,15 @@ public class SaveAssetRequest extends Request {
      */
     public BigDecimal getCost() {
         return cost;
+    }
+
+    /**
+     * Get the currency of the input asset
+     *
+     * @return the currency of the input asset
+     */
+    public String getCurrency() {
+        return currency;
     }
 
     /**

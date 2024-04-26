@@ -5,11 +5,9 @@ import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.TimeZone;
 
 @Entity
 @Table(name = "asset")
@@ -22,7 +20,7 @@ public class Asset {
 
     @Column(name ="cost",nullable = false,updatable = false)
     @NotNull(message = "The cost of the cannot be null")
-    @Digits(integer = 10, fraction = 4,message = "The cost of the asset can only have {0} " +
+    @Digits(integer = 10, fraction = 2,message = "The cost of the asset can only have {0} " +
                                                  "number of integers and {1} number of fractions")
     private BigDecimal cost;
 
@@ -62,10 +60,10 @@ public class Asset {
                  final BigDecimal cost,
                  final BigDecimal depreciationRate,
                  final Date purchaseDate) {
-        this.title = title;
-        this.cost = cost;
-        this.depreciationRate = depreciationRate.divide(BigDecimal.valueOf(100), 6, RoundingMode.HALF_UP);
-        this.purchaseDate = purchaseDate;
+        setTitle( title );
+        setCost( cost );
+        setDepreciationRate( depreciationRate.divide(BigDecimal.valueOf(100), 6, RoundingMode.HALF_UP));
+        setPurchaseDate( purchaseDate );
         setCurrentValue();
     }
 

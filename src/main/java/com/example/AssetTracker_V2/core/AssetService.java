@@ -7,12 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.function.Function;
 
 @Service
 public class AssetService {
@@ -20,77 +18,62 @@ public class AssetService {
     @Autowired
     AssetRepository assetRepository;
 
+    /**
+     * Get all the assets being stored in the repository
+     *
+     * @param request       to get all the assets containing the page number of the asset list
+     *
+     * @return              response page containing the list of assets
+     */
     public GetAllAssetsResponse getAllAssets(GetAllAssetsRequest request){
 
-        // Validate page size
         int pageSize = Math.max(request.getPageSize(), 100);
 
-        Sort sort=Sort.by("purchaseDate").ascending();
-
-        Pageable pageable = PageRequest.of(request.getPageNumber(), pageSize,sort);
-        final Page<Asset> assets = assetRepository.findAll(pageable);
+        Pageable pageable = PageRequest.of(request.getPageNumber(), pageSize, Sort.by("purchaseDate").ascending() );
 
         List<AssetSummary> assetSummaries = new ArrayList<>();
 
-        for(Asset asset : assets.getContent()) {
-            assetSummaries.add(new AssetSummary(
-                    asset.getCost(),
-                    asset.getCurrentValue(),
-                    asset.getDepreciationRate(),
-                    asset.getPurchaseDate(),
-                    asset.getTitle()
-            ));
+        for(Asset asset : assetRepository.findAll(pageable)) {
+            assetSummaries.add(new AssetSummary(    asset.getCost(),
+                                                    asset.getCurrentValue(),
+                                                    asset.getDepreciationRate(),
+                                                    asset.getPurchaseDate(),
+                                                    asset.getTitle()    ));
         }
 
-        // Get the total count of assets
         long totalCount = assetRepository.count();
-
-        // Create the Page object
         Page<AssetSummary> page = new PageImpl<>(assetSummaries, pageable, totalCount);
 
         return new GetAllAssetsResponse(page);
     }
 
-
-    /*
-    public GetAllAssetsResponse getAllAssets(GetAllAssetsRequest request){
-
-        Pageable pageable = PageRequest.of(request.getPageNumber(), request.getPageSize());
-        final Page<Asset> assets = assetRepository.findAll(pageable);
-
-        List<AssetSummary> assetSummaries = new ArrayList<>();
-
-        for(Asset asset : assets.getContent()) {
-            assetSummaries.add(new AssetSummary(
-                    asset.getCost(),
-                    asset.getCurrentValue(),
-                    asset.getDepreciationRate(),
-                    asset.getPurchaseDate(),
-                    asset.getTitle()
-            ));
-        }
-
-        // Get the total count of assets
-        long totalCount = assetRepository.count();
-
-        // Create the Page object
-        Page<AssetSummary> page = new PageImpl<>(assetSummaries, pageable, totalCount);
-
-        return new GetAllAssetsResponse(page);
-    }
-
+    /**
+     * Get the response containing the total count, cost and current value of all the assets
+     *
+     * @param request       .
+     *
+     * @return              object containing the total count, cost and current value of the assets
      */
-
     public GetAllAssetsSummaryResponse getAssetsSummary(GetAllAssetsSummaryRequest request){
-
         return  new GetAllAssetsSummaryResponse(assetRepository.count(),
-                assetRepository.costOfAllAssets(),
-                assetRepository.valueOfAllAssets());
+                                                assetRepository.costOfAllAssets(),
+                                                assetRepository.valueOfAllAssets() );
     }
 
+    /**
+     * Saves the asset sent to the function, into the asset repository
+     *
+     * @param request containing all the details like cost, depreciation rate, purchase date, and title of the asset
+     *
+     * @return the errors if any or the message stating that the asset was saved
+     */
     public SaveAssetResponse saveAsset(SaveAssetRequest request){
 
-        assetRepository.save( new Asset(request.getTitle(),request.getCost(),request.getDepreciationRate(),request.getPurchaseDate()));
+        BigDecimal cost=request.getCost();
+        InputCurrency currency= InputCurrency.valueOf(request.getCurrency());
+        cost=cost.divide(BigDecimal.valueOf(currency.getConversionToUSD()),2, RoundingMode.HALF_UP);
+
+        assetRepository.save( new Asset(request.getTitle(),cost,request.getDepreciationRate(),request.getPurchaseDate()));
 
         return new SaveAssetResponse();
     }
