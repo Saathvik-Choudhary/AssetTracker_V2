@@ -29,7 +29,9 @@ public class AssetService {
 
         int pageSize = Math.max(request.getPageSize(), 100);
 
-        Pageable pageable = PageRequest.of(request.getPageNumber(), pageSize, Sort.by("purchaseDate").ascending() );
+        Pageable pageable = PageRequest.of(request.getPageNumber()
+                , request.getPageSize()
+                , Sort.by("purchaseDate").ascending() );
 
         List<AssetSummary> assetSummaries = new ArrayList<>();
 
@@ -38,7 +40,7 @@ public class AssetService {
                                                     asset.getCurrentValue(),
                                                     asset.getDepreciationRate(),
                                                     asset.getPurchaseDate(),
-                                                    asset.getTitle()    ));
+                                                    asset.getTitle()));
         }
 
         long totalCount = assetRepository.count();
@@ -78,12 +80,12 @@ public class AssetService {
         return new SaveAssetResponse();
     }
 
-    @Scheduled(cron = "0 0 0 * * *")
-    public void updateColumn() {
-        final var assets= assetRepository.findAll();
-
-        for(var asset:assets){
-            asset.setCurrentValue();
-        }
-    }
+//    @Scheduled(cron = "0 0 0 * * *")
+//    public void updateColumn() {
+//        final var assets= assetRepository.findAll();
+//
+//        for(var asset:assets){
+//            asset.setCurrentValue();
+//        }
+//    }
 }
