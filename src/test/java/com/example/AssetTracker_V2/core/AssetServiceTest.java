@@ -8,7 +8,6 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -28,7 +27,7 @@ class AssetServiceTest {
     private AssetService assetService;
 
     @Test
-    void getAllAssets_Success() {
+    void getAllAssetsSuccess() {
         // Mock data
         List <Asset> assets = new ArrayList<>();
         assets.add(new Asset("Laptop", BigDecimal.valueOf(1000), BigDecimal.valueOf(0.01), null));
@@ -48,7 +47,7 @@ class AssetServiceTest {
     }
 
     @Test
-    void getAllAssets_EmptyRepository() {
+    void getAllAssetsEmptyRepository() {
         // Mock repository behavior
         when(assetRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(new ArrayList <>()));
 
@@ -62,7 +61,7 @@ class AssetServiceTest {
     }
 
     @Test
-    void getAssetsSummary_Success() {
+    void getAssetsSummarySuccess() {
         // Mock repository behavior
         when(assetRepository.count()).thenReturn(5L);
         when(assetRepository.costOfAllAssets()).thenReturn(BigDecimal.valueOf(3000));
@@ -80,7 +79,7 @@ class AssetServiceTest {
     }
 
     @Test
-    void saveAsset_Success() {
+    void saveAssetSuccess() {
         // Mock request
         SaveAssetRequest request = new SaveAssetRequest("Laptop", BigDecimal.valueOf(1000), "USD", BigDecimal.valueOf(0.1), null);
 
@@ -91,7 +90,7 @@ class AssetServiceTest {
     }
 
     @Test
-    void saveAsset_CurrencyConversion() {
+    void saveAssetCurrencyConversion() {
         // Mock request
         SaveAssetRequest request = new SaveAssetRequest("Laptop", BigDecimal.valueOf(1000), "EUR", BigDecimal.valueOf(0.1), null);
 
@@ -107,7 +106,7 @@ class AssetServiceTest {
     }
 
     @Test
-    void saveAsset_InvalidCurrency() {
+    void saveAssetInvalidCurrency() {
         // Mock request
         SaveAssetRequest request = new SaveAssetRequest("Laptop"
                 , BigDecimal.valueOf(1000)
