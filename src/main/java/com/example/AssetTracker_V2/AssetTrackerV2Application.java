@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.util.TimeZone;
 
 @SpringBootApplication
-public class AssetTrackerV2Application {
+public abstract class AssetTrackerV2Application {
+
+	public abstract void init();
 
 	public static void main(String[] args) {
 		SpringApplication.run(AssetTrackerV2Application.class, args);

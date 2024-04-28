@@ -21,9 +21,9 @@ public class AssetService {
     /**
      * Get all the assets being stored in the repository
      *
-     * @param request       to get all the assets containing the page number of the asset list
+     * @param request to get all the assets containing the page number of the asset list
      *
-     * @return              response page containing the list of assets
+     * @return response page containing the list of assets
      */
     public GetAllAssetsResponse getAllAssets(GetAllAssetsRequest request){
 
@@ -50,9 +50,9 @@ public class AssetService {
     /**
      * Get the response containing the total count, cost and current value of all the assets
      *
-     * @param request       .
+     * @param request .
      *
-     * @return              object containing the total count, cost and current value of the assets
+     * @return object containing the total count, cost and current value of the assets
      */
     public GetAllAssetsSummaryResponse getAssetsSummary(GetAllAssetsSummaryRequest request){
         return  new GetAllAssetsSummaryResponse(assetRepository.count(),

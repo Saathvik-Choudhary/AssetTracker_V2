@@ -18,10 +18,14 @@ import java.time.LocalDate;
 @Repository
 public interface AssetRepository extends JpaRepository<Asset,Long> , JpaSpecificationExecutor<Asset> {
 
-    @Query("SELECT SUM(cost) FROM Asset")
+    @Query("SELECT SUM"
+            + "(cost) "
+            + "FROM Asset")
     BigDecimal costOfAllAssets();
 
-    @Query("SELECT SUM(currentValue) FROM Asset")
+    @Query("SELECT SUM"
+            + "(currentValue)"
+            + " FROM Asset")
     BigDecimal valueOfAllAssets();
 
 
