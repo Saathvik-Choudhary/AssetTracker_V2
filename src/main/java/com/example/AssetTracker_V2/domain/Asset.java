@@ -44,7 +44,7 @@ public class Asset {
     @NotBlank(message = "The title of the asset cannot be blank")
     private String title;
 
-    private Asset(){
+    public Asset(){
         super();
     }
 
@@ -169,3 +169,8 @@ public class Asset {
     }
     */
 }
+
+
+/**
+ * Calander.get
+ */

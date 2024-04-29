@@ -1,6 +1,10 @@
 package com.example.AssetTracker_V2.core;
 
+import java.util.Currency;
+
 public enum InputCurrency {
+
+
 
 
         AED ("United Arab Emirates Dirham", 3.6725),

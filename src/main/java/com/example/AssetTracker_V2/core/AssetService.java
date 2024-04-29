@@ -25,7 +25,7 @@ public class AssetService {
      *
      * @return response page containing the list of assets
      */
-    public GetAllAssetsResponse getAllAssets(GetAllAssetsRequest request){
+     public GetAllAssetsResponse getAllAssets(GetAllAssetsRequest request){
 
         int pageSize = Math.max(request.getPageSize(), 100);
 
@@ -43,7 +43,7 @@ public class AssetService {
                                                     asset.getTitle()));
         }
 
-        long totalCount = assetRepository.count();
+        final long totalCount = assetRepository.count();
         Page<AssetSummary> page = new PageImpl<>(assetSummaries, pageable, totalCount);
 
         return new GetAllAssetsResponse(page);
